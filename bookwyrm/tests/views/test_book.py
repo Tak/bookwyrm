@@ -319,10 +319,7 @@ class BookViews(TestCase):
             views.upload_cover(request, self.book.id)
             self.assertEqual(delay_mock.call_count, 1)
 
-        view(request)
-
-        book = models.Edition.objects.get(title="New Title")
-        self.assertEqual(book.parent_work.title, "New Title")
+        self.book.refresh_from_db()
         self.assertTrue(self.book.cover)
 
     def test_upload_cover_file(self):
